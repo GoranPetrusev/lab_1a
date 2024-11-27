@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title th:text="${title}"></title>
+  <style type="text/css">
+    body {
+      width: 800px;
+      margin: auto;
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <h1 th:text="${form}"></h1>
+</header>
+
+<main>
+
+  <form action="/locations/add" method="POST">
+    <input type="hidden"
+           name="locationId"
+           th:value="(${location} != null ? ${location.getId()} : '')">
+    <div>
+      <label for="name">Name</label>
+      <input id="name"
+             name="name"
+             th:value="(${location} != null ? ${location.getName()} : '')"
+             required
+             placeholder="Name">
+    </div>
+    <div>
+      <label for="address">Address</label>
+      <input id="address"
+             name="address"
+             th:value="(${location} != null ? ${location.getName()} : '')"
+             required
+             placeholder="Address">
+    </div>
+    <div>
+      <label for="capacity">Capacity</label>
+      <input id="capacity"
+             type="number"
+             step="1"
+             name="capacity"
+             th:value="(${location} != null ? ${location.getCapacity()} : '')"
+             placeholder="Capacity">
+    </div>
+    <div>
+      <label for="description">Description</label>
+      <input id="description"
+             name="description"
+             th:value="(${location} != null ? ${location.getDescription()} : '')"
+             placeholder="Description">
+    </div>
+    <button type="submit">Submit</button>
+    <a href="/locations">Back</a>
+  </form>
+
+
+
+
+</main>
+
+</body>
+</html>

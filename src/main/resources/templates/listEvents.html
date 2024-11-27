@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Event Booking page - Welcome and choose an Event</title>
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Welcome to our Event Booking App</h1>
+</header>
+<main>
+    <h2>Search events</h2>
+    <form action="/events" method="GET">
+        <label>Event name:
+            <input type="text" name="searchName"><br/>
+        </label>
+        <br/>
+        <label>Minimum rating:
+            <input type="number" name="minRating" step="0.1" min="0.0" max="10.0"><br/>
+        </label>
+        <br/>
+        <input type="submit" value="Submit">
+    </form>
+
+    <h2>Choose an event:</h2>
+
+    <form action="/eventBooking" method="POST">
+        <li th:each="event : ${events}">
+            <input type="radio" th:name="'selectedEvent'" th:value="${event.name}" />
+            <label th:text="'Name: ' + ${event.name} + ', Description: ' + ${event.description} + ', Rating: ' + ${event.popularityScore} + ', Locale: ' + ${event.location.name} + ', Address: ' + ${event.location.address} + ', Capacity: ' + ${event.location.capacity} + ', Description: ' + ${event.location.description}"></label>
+
+            <button type="button" th:onclick="'window.location.href=\'/events/edit-form/' + ${event.id} + '\';'">Edit</button>
+            <button type="button" th:onclick="'window.location.href=\'/events/delete/' + ${event.id} + '\';'">Delete</button>
+        </li>
+        <button type="button" th:onclick="'window.location.href=\'/events/add-form\';'">Add Event</button>
+
+        <h2>Choose number of tickets:</h2>
+        <input type="number" name="numTickets" min="1" max="10"><br/>
+        <br/>
+        <input type="submit" value="Submit">
+    </form>
+
+    <br/>
+    <br/>
+
+    <button type="button" th:onclick="'window.location.href=\'/locations\';'">View Locations</button>
+
+
+</main>
+</body>
+</html>

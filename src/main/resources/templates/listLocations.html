@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Event locations page</title>
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Add, delete, edit locations</h1>
+</header>
+<main>
+    <h2>Available locations:</h2>
+
+    <li th:each="loc : ${locations}">
+        <label th:text="'Locale: ' + ${loc.getName()} + ', Address: ' + ${loc.getAddress()} + ', Capacity: ' + ${loc.getCapacity()} + ', Description: ' + ${loc.getDescription()}"></label>
+
+        <button type="button" th:onclick="'window.location.href=\'/locations/edit-form/' + ${loc.getId()} + '\';'">Edit</button>
+        <button type="button" th:onclick="'window.location.href=\'/locations/delete/' + ${loc.getId()} + '\';'">Delete</button>
+    </li>
+    <button type="button" th:onclick="'window.location.href=\'/locations/add-form\';'">Add Location</button>
+
+    <br/>
+    <br/>
+
+    <button type="button" th:onclick="'window.location.href=\'/events\';'">Back</button>
+
+
+</main>
+</body>
+</html>
