@@ -44,7 +44,9 @@ public class EventListServlet extends HttpServlet {
                             e.getPopularityScore() >= Double.parseDouble(minRating))
                     .toList();
         } else if(searchName != null && !searchName.isEmpty()) {
-            filteredEvents = eventService.searchEvents(searchName);
+            filteredEvents = filteredEvents.stream()
+                    .filter(e -> e.getName().toLowerCase().contains(searchName.toLowerCase()))
+                    .toList();
         } else if(minRating != null && !minRating.isEmpty()) {
             filteredEvents = filteredEvents.stream()
                     .filter(e -> e.getPopularityScore() >= Double.parseDouble(minRating))

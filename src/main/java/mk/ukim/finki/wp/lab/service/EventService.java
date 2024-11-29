@@ -8,9 +8,9 @@ import java.util.Optional;
 
 public interface EventService {
     List<Event> listAll();
-    List<Event> searchEvents(String text);
+    List<Event> searchEvents(String name, String rating);
     Optional<Event> findById(Long id);
     void deleteById(Long id);
-    void save(String name, String description, Double popularityScore, Location location);
-    void save(String name, String description, Double popularityScore, Location location, Long eventId);
+    Optional<Event> save(String name, String description, Double popularityScore, Long locationId);
+    Optional<Event> update(Long id, String name, String description, Double popularityScore, Long locationId);
 }

@@ -31,21 +31,7 @@ public class EventController {
             model.addAttribute("error", error);
         }
 
-        List<Event> filteredEvents = eventService.listAll();
-
-        if(searchName != null && !searchName.isEmpty() && minRating != null && !minRating.isEmpty()) {
-            filteredEvents = filteredEvents.stream()
-                    .filter(e -> e.getName().toLowerCase().contains(searchName.toLowerCase()) &&
-                            e.getPopularityScore() >= Double.parseDouble(minRating))
-                    .toList();
-        } else if(searchName != null && !searchName.isEmpty()) {
-            filteredEvents = eventService.searchEvents(searchName);
-        } else if(minRating != null && !minRating.isEmpty()) {
-            filteredEvents = filteredEvents.stream()
-                    .filter(e -> e.getPopularityScore() >= Double.parseDouble(minRating))
-                    .toList();
-        }
-
+        List<Event> filteredEvents = this.eventService.searchEvents(searchName, minRating);
 
         model.addAttribute("events", filteredEvents);
         return "listEvents";
@@ -81,17 +67,16 @@ public class EventController {
     }
 
     @PostMapping("/add")
-    public String saveEvent(@RequestParam String name,
+    public String saveEvent(@RequestParam(required = false) String eventId,
+                            @RequestParam String name,
                             @RequestParam String description,
                             @RequestParam Double popularityScore,
-                            @RequestParam String locationId,
-                            @RequestParam String eventId) {
-        Location location = locationService.findById(Long.valueOf(locationId)).orElse(null);
+                            @RequestParam String locationId) {
 
-        if(eventId != null && !eventId.isEmpty()) {
-            eventService.save(name, description, popularityScore, location, Long.valueOf(eventId));
+        if(eventId != null) {
+            this.eventService.update(Long.valueOf(eventId), name, description, popularityScore, Long.valueOf(locationId));
         } else {
-            eventService.save(name, description, popularityScore, location);
+            this.eventService.save(name, description, popularityScore, Long.valueOf(locationId));
         }
 
         return "redirect:/events";

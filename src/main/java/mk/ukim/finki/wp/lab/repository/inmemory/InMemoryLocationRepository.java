@@ -1,16 +1,14 @@
-package mk.ukim.finki.wp.lab.repository;
+package mk.ukim.finki.wp.lab.repository.inmemory;
 
 import mk.ukim.finki.wp.lab.bootstrap.DataHolder;
-import mk.ukim.finki.wp.lab.model.Event;
 import mk.ukim.finki.wp.lab.model.Location;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class LocationRepository {
+public class InMemoryLocationRepository {
     public List<Location> findAll() {
         return DataHolder.locations;
     }
