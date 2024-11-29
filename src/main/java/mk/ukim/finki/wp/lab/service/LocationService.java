@@ -6,12 +6,15 @@ import java.util.List;
 import java.util.Optional;
 
 public interface LocationService {
+
     List<Location> findAll();
+
     Optional<Location> findById(Long id);
 
     void deleteById(Long id);
 
-    void save(String name, String description, String address, String capacity, String locationId);
+    Optional<Location> save(String name, String description, String address, String capacity);
 
-    void save(String name, String description, String address, String capacity);
+    Optional<Location> update(Long id, String name, String description, String address, String capacity);
+
 }

@@ -1,9 +1,6 @@
 package mk.ukim.finki.wp.lab.web.controller;
 
-import mk.ukim.finki.wp.lab.model.Event;
-import mk.ukim.finki.wp.lab.model.EventBooking;
 import mk.ukim.finki.wp.lab.model.Location;
-import mk.ukim.finki.wp.lab.service.EventBookingService;
 import mk.ukim.finki.wp.lab.service.LocationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +25,7 @@ public class LocationController {
             model.addAttribute("error", error);
         }
 
-        List<Location> locations = locationService.findAll();
+        List<Location> locations = this.locationService.findAll();
         model.addAttribute("locations", locations);
 
         return "listLocations";
@@ -36,8 +33,8 @@ public class LocationController {
 
     @GetMapping("/edit-form/{id}")
     public String editEvent(@PathVariable Long id, Model model) {
-        if(locationService.findById(id).isPresent()){
-            Location loc = locationService.findById(id).get();
+        if(this.locationService.findById(id).isPresent()){
+            Location loc = this.locationService.findById(id).get();
             model.addAttribute("location", loc);
             model.addAttribute("title", "Edit Location");
             model.addAttribute("form", "Edit Form");
@@ -55,21 +52,21 @@ public class LocationController {
 
     @GetMapping("/delete/{id}")
     public String deleteEvent(@PathVariable Long id) {
-        locationService.deleteById(id);
+        this.locationService.deleteById(id);
         return "redirect:/locations";
     }
 
     @PostMapping("/add")
-    public String saveEvent(@RequestParam String name,
+    public String saveEvent(@RequestParam(required = false) String locationId,
+                            @RequestParam String name,
                             @RequestParam String description,
                             @RequestParam String address,
-                            @RequestParam String capacity,
-                            @RequestParam String locationId) {
+                            @RequestParam String capacity) {
 
-        if(locationId!=null && !locationId.isEmpty()) {
-            locationService.save(name, address, capacity, description, locationId);
+        if(locationId != null && !locationId.isEmpty()) {
+            this.locationService.update(Long.valueOf(locationId), name, address, capacity, description);
         } else {
-            locationService.save(name, address, capacity, description);
+            this.locationService.save(name, address, capacity, description);
         }
 
         return "redirect:/locations";

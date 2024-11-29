@@ -13,9 +13,6 @@ import java.util.Random;
 
 @Component
 public class DataHolder {
-    public static List<Event> events = null;
-    public static List<Location> locations = null;
-
     private final EventRepository eventRepository;
     private final LocationRepository locationRepository;
 
@@ -26,7 +23,7 @@ public class DataHolder {
 
     @PostConstruct
     public void init() {
-        locations = new ArrayList<>();
+        List<Location> locations = new ArrayList<>();
         if(this.locationRepository.count() == 0) {
             locations.add(new Location("Green Park Stadium", "123 Park Lane, Cityville", "50,000", "A large outdoor stadium for sports events and concerts."));
             locations.add(new Location("Central Library", "456 Main St, Townsville", "500", "A public library offering a vast collection of books and digital resources."));
@@ -37,7 +34,7 @@ public class DataHolder {
             this.locationRepository.saveAll(locations);
         }
 
-        events = new ArrayList<>();
+        List<Event> events = new ArrayList<>();
         if(this.eventRepository.count() == 0) {
             events.add(new Event("Concert", "A live musical performance", 8.5));
             events.add(new Event("Conference", "An event for professionals to discuss trends", 7.2));

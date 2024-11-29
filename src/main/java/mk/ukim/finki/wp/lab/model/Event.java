@@ -8,9 +8,11 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 public class Event {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
     private String description;
     private double popularityScore;

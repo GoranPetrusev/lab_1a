@@ -73,7 +73,7 @@ public class EventController {
                             @RequestParam Double popularityScore,
                             @RequestParam String locationId) {
 
-        if(eventId != null) {
+        if(eventId != null && !eventId.isEmpty()) {
             this.eventService.update(Long.valueOf(eventId), name, description, popularityScore, Long.valueOf(locationId));
         } else {
             this.eventService.save(name, description, popularityScore, Long.valueOf(locationId));

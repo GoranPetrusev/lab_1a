@@ -42,6 +42,11 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public List<Event> listByLocationId(Long locationId) {
+        return this.eventRepository.findAllByLocationId(locationId);
+    }
+
+    @Override
     public void deleteById(Long id) {
         this.eventRepository.deleteById(id);
     }
