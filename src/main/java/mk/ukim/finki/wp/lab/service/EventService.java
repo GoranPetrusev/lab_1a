@@ -9,7 +9,7 @@ public interface EventService {
 
     List<Event> listAll();
 
-    List<Event> searchEvents(String name, String rating);
+    List<Event> searchEvents(String name, String rating, String locationId);
 
     Optional<Event> findById(Long id);
 

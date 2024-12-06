@@ -8,6 +8,25 @@
             width: 800px;
             margin: auto;
         }
+        table, td, th {
+            border: 1px solid black;
+            padding: 3px 2px;
+            text-align: center;
+        }
+
+        div {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        h1{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     </style>
 </head>
 <body>
@@ -15,20 +34,36 @@
     <h1>Add, delete, edit locations</h1>
 </header>
 <main>
-    <h2>Available locations:</h2>
 
-    <li th:each="loc : ${locations}">
-        <label th:text="'Locale: ' + ${loc.getName()} + ', Address: ' + ${loc.getAddress()} + ', Capacity: ' + ${loc.getCapacity()} + ', Description: ' + ${loc.getDescription()}"></label>
+    <table>
+        <tr style="font-size: 26px">
+            <th colspan="5">
+                Available locations            </th>
+        </tr>
+        <tr style="font-size: 20px">
+            <th>Locale</th>
+            <th>Address</th>
+            <th>Capacity</th>
+            <th>Description</th>
+            <th></th>
+        </tr>
+        <tr th:each="location : ${locations}">
+            <td th:text="${location.getName()}"></td>
+            <td th:text="${location.getAddress()}"></td>
+            <td th:text="${location.getCapacity()}"></td>
+            <td th:text="${location.getDescription()}"></td>
+            <td style="width: 100px; word-spacing: 4px">
+                <button type="button" th:onclick="'window.location.href=\'/locations/edit-form/' + ${location.getId()} + '\';'">Edit</button>
+                <button type="button" th:onclick="'window.location.href=\'/locations/delete/' + ${location.getId()} + '\';'">Delete</button>
+            </td>
+        </tr>
+    </table>
 
-        <button type="button" th:onclick="'window.location.href=\'/locations/edit-form/' + ${loc.getId()} + '\';'">Edit</button>
-        <button type="button" th:onclick="'window.location.href=\'/locations/delete/' + ${loc.getId()} + '\';'">Delete</button>
-    </li>
-    <button type="button" th:onclick="'window.location.href=\'/locations/add-form\';'">Add Location</button>
 
-    <br/>
-    <br/>
-
-    <button type="button" th:onclick="'window.location.href=\'/events\';'">Back</button>
+    <div>
+        <button type="button" style="font-size: 15px; padding: 5px" th:onclick="'window.location.href=\'/events\';'">Back</button>
+        <button type="button" style="font-size: 15px; padding: 5px" th:onclick="'window.location.href=\'/locations/add-form\';'">Add Location</button>
+    </div>
 
 
 </main>

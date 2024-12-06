@@ -29,11 +29,14 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<Event> searchEvents(String name, String rating) {
+    public List<Event> searchEvents(String name, String rating, String locationId) {
         name = name == null ? "" : name;
         rating = rating == null || rating.isEmpty() ? "0.0" : rating;
 
-        return this.eventRepository.findAllByNameContainingIgnoreCaseAndPopularityScoreGreaterThanEqual(name, Double.parseDouble(rating));
+        if(locationId == null || locationId.isEmpty())
+            return this.eventRepository.findAllByNameContainingIgnoreCaseAndPopularityScoreGreaterThanEqual(name, Double.parseDouble(rating));
+
+        return this.eventRepository.findAllByNameContainingIgnoreCaseAndPopularityScoreGreaterThanEqualAndLocationId(name, Double.parseDouble(rating), Long.valueOf(locationId));
     }
 
     @Override

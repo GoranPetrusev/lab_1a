@@ -25,23 +25,26 @@ public class EventController {
     public String getEventsPage(@RequestParam(required = false) String error,
                                 @RequestParam(required = false) String searchName,
                                 @RequestParam(required = false) String minRating,
+                                @RequestParam(required = false) String locationId,
                                 Model model) {
         if (error != null && !error.isEmpty()) {
             model.addAttribute("hasError", true);
             model.addAttribute("error", error);
         }
 
-        List<Event> filteredEvents = this.eventService.searchEvents(searchName, minRating);
+        List<Location> locations = this.locationService.findAll();
+        List<Event> filteredEvents = this.eventService.searchEvents(searchName, minRating, locationId);
 
         model.addAttribute("events", filteredEvents);
+        model.addAttribute("locations", locations);
         return "listEvents";
     }
 
     @GetMapping("/edit-form/{id}")
     public String editEvent(@PathVariable Long id, Model model) {
-        if(eventService.findById(id).isPresent()){
-            List<Location> locations = locationService.findAll();
-            Event e = eventService.findById(id).get();
+        if(this.eventService.findById(id).isPresent()){
+            List<Location> locations = this.locationService.findAll();
+            Event e = this.eventService.findById(id).get();
             model.addAttribute("event", e);
             model.addAttribute("locations", locations);
             model.addAttribute("title", "Edit Event");
@@ -53,7 +56,7 @@ public class EventController {
 
     @GetMapping("/add-form")
     public String addEvent(Model model) {
-        List<Location> locations = locationService.findAll();
+        List<Location> locations = this.locationService.findAll();
         model.addAttribute("locations", locations);
         model.addAttribute("title", "Add Event");
         model.addAttribute("form", "Add Form");
@@ -62,7 +65,7 @@ public class EventController {
 
     @GetMapping("/delete/{id}")
     public String deleteEvent(@PathVariable Long id) {
-        eventService.deleteById(id);
+        this.eventService.deleteById(id);
         return "redirect:/events";
     }
 

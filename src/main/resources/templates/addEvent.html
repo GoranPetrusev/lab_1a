@@ -4,16 +4,51 @@
     <meta charset="utf-8">
     <title th:text="${title}"></title>
     <style type="text/css">
-        body {
-          width: 800px;
-          margin: auto;
+        main {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          margin-top: -8%;
         }
+
+        label{
+          font-size: 20px;
+          margin-right: 20px;
+        }
+
+        input{
+          font-size: 15px;
+        }
+
+        div{
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 7px;
+        }
+
+        button {
+          font-size: 15px;
+        }
+
+        #submit, #back{
+          justify-content: center;
+        }
+
+        header{
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-top: 2%;
+        }
+
+
     </style>
 </head>
 
 <body>
 <header>
-    <h1 th:text="${form}"></h1>
+    <h1 th:text="${form}">Placehokder</h1>
 </header>
 
 <main>
@@ -60,8 +95,14 @@
         </option>
       </select>
     </div>
+    <div id="submit">
     <button type="submit">Submit</button>
-    <a href="/events">Back</a>
+    </div>
+    <div id="back">
+      <button type="button" id="addEvent" th:onclick="'window.location.href=\'/events\';'">Back</button>
+
+    </div>
+
   </form>
 
 
