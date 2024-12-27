@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <title>Event Booking page - Welcome and choose an Event</title>
@@ -87,7 +87,9 @@
                 <th>Address</th>
                 <th>Capacity</th>
                 <th>Description</th>
-                <th></th>
+                <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                    <th></th>
+                </th:block>
             </tr>
             <tr th:each="event : ${events}">
                 <td>
@@ -102,13 +104,17 @@
                 <td th:text="${event.getLocation().getAddress()}"></td>
                 <td th:text="${event.getLocation().getCapacity()}"></td>
                 <td th:text="${event.getLocation().getDescription()}"></td>
-                <td style="width: 100px; word-spacing: 4px">
-                    <button type="button" th:onclick="'window.location.href=\'/events/edit-form/' + ${event.getId()} + '\';'">Edit</button>
-                    <button type="button" th:onclick="'window.location.href=\'/events/delete/' + ${event.getId()} + '\';'">Delete</button>
-                </td>
+                <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                    <td style="width: 100px; word-spacing: 4px">
+                        <button type="button" th:onclick="'window.location.href=\'/events/edit-form/' + ${event.getId()} + '\';'">Edit</button>
+                        <button type="button" th:onclick="'window.location.href=\'/events/delete/' + ${event.getId()} + '\';'">Delete</button>
+                    </td>
+                </th:block>
             </tr>
         </table>
-        <button type="button" class="addEvent" th:onclick="'window.location.href=\'/events/add-form\';'">Add Event</button>
+        <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+            <button type="button" class="addEvent" th:onclick="'window.location.href=\'/events/add-form\';'">Add Event</button>
+        </th:block>
 
         <h2>Choose number of tickets:</h2>
         <input type="number" name="numTickets" min="1" max="10"><br/>

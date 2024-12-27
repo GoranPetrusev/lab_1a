@@ -3,8 +3,12 @@ package mk.ukim.finki.wp.lab.bootstrap;
 import jakarta.annotation.PostConstruct;
 import mk.ukim.finki.wp.lab.model.Event;
 import mk.ukim.finki.wp.lab.model.Location;
+import mk.ukim.finki.wp.lab.model.User;
+import mk.ukim.finki.wp.lab.model.enumerations.Role;
 import mk.ukim.finki.wp.lab.repository.jpa.EventRepository;
 import mk.ukim.finki.wp.lab.repository.jpa.LocationRepository;
+import mk.ukim.finki.wp.lab.repository.jpa.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -15,14 +19,27 @@ import java.util.Random;
 public class DataHolder {
     private final EventRepository eventRepository;
     private final LocationRepository locationRepository;
+    private final UserRepository userRepository;
 
-    public DataHolder(EventRepository eventRepository, LocationRepository locationRepository) {
+    private final PasswordEncoder passwordEncoder;
+
+    public DataHolder(EventRepository eventRepository, LocationRepository locationRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.eventRepository = eventRepository;
         this.locationRepository = locationRepository;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PostConstruct
     public void init() {
+
+        List<User> users = new ArrayList<>();
+        if (this.userRepository.count() == 0) {
+            users.add(new User("goran.petrushev", passwordEncoder.encode("gp"), "Goran", "Petrushev", Role.ROLE_USER));
+            users.add(new User("admin", passwordEncoder.encode("admin"), "admin", "admin", Role.ROLE_ADMIN));
+            this.userRepository.saveAll(users);
+        }
+
         List<Location> locations = new ArrayList<>();
         if(this.locationRepository.count() == 0) {
             locations.add(new Location("Green Park Stadium", "123 Park Lane, Cityville", "50,000", "A large outdoor stadium for sports events and concerts."));
